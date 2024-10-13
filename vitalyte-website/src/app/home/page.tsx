@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Head from "next/head";
+import Link from "next/link";
 
 export default function Home() {
 	return (
@@ -39,6 +40,45 @@ export default function Home() {
 						style={{ backgroundImage: "url(/imgs/home_logo.svg)" }}
 					/>
 				</div>
+			</div>
+
+			<div className="bg-[#d4ecff] h-[100vh] w-full relative bottom-12">
+				<div className="flex justify-center items-center top-12 relative flex-col">
+					<h1 className="text-center text-5xl tracking-wider text-[#005eb4] leading-relaxed">
+						Ready to manage your health <br />
+						<span className="">with just a conversation?</span>
+					</h1>
+
+					<p className="mt-5 text-2xl tracking-wide w-1/2 text-center">
+						Use our health chatbots and{" "}
+						<span className="font-black text-[#007698]">
+							revitalize yourself
+						</span>{" "}
+						with expert recommendations and patient help.{" "}
+					</p>
+
+					<Link
+						href="/"
+						className="bg-[#007698] py-2 px-5 mt-7 hover:text-[#d4ecff] text-white rounded-full"
+					>
+						<p className="text-2xl">Get Vitalyte for Free</p>
+					</Link>
+
+					<div className="flex flex-row space-x-2 mt-7">
+						<p className="text-2xl">Already have an account?</p>
+						<p className="text-2xl underline">
+							<Link href="/">Log in</Link>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div className="flex justify-start w-full">
+				<img
+					src="/imgs/chatbot.svg"
+					className=""
+					alt="Chatbot illustration"
+				/>
 			</div>
 		</>
 	);
