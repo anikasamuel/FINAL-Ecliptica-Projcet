@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
+import { Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
 	return (
-		<>
+		<div className="overflow-x-hidden">
 			<Head>
 				<title>Innovative Technology. Empowering Healthcare.</title>
 				<meta
@@ -36,7 +38,7 @@ export default function Home() {
 
 					{/* Change this later so that on smaller screens the img becomes the background */}
 					<div
-						className="mt-12 top-1 left-16 relative w-[100vw] h-[100vh] bg-cover bg-center"
+						className="mt-10 left-7 relative w-[100vw] h-[105vh] bg-cover bg-center"
 						style={{ backgroundImage: "url(/imgs/home_logo.svg)" }}
 					/>
 				</div>
@@ -59,7 +61,7 @@ export default function Home() {
 
 					<Link
 						href="/"
-						className="bg-[#007698] py-2 px-5 mt-7 hover:text-[#d4ecff] text-white rounded-full"
+						className="bg-[#007698] py-3 px-5 mt-7 hover:text-[#d4ecff] text-white rounded-2xl"
 					>
 						<p className="text-2xl">Get Vitalyte for Free</p>
 					</Link>
@@ -73,13 +75,50 @@ export default function Home() {
 				</div>
 			</div>
 
-			<div className="flex justify-start w-full">
+			{/* Slideshow of cards will go here... */}
+
+			{/* Need to fix positioning and responsiveness */}
+			<div className="relative mb-10 flex flex-row w-full">
 				<img
-					src="/imgs/chatbot.svg"
-					className=""
+					src="/imgs/chatbot.png"
+					className="object-fill z-10 w-[80%] lg:right-52 md:right-36 sm:right-20 right-20 relative"
 					alt="Chatbot illustration"
 				/>
+
+				<div className="relative z-40 right-96 space-y-20 top-20">
+					<CheckList />
+					<CheckList />
+					<CheckList />
+					<CheckList />
+				</div>
 			</div>
-		</>
+
+			<div className="bg-[#007698] w-full h-72 items-center justify-center flex flex-col">
+				<div className="space-y-10">
+					<p className="text-5xl text-white">Revitalize Yourself</p>
+					<p className="text-xl tracking-wider text-white text-center relative">
+						Start your independent health journey.
+					</p>
+				</div>
+
+				<Link
+					href="/"
+					className="bg-[#042839] py-3 px-5 mt-7 hover:text-[#d4ecff] text-white rounded-2xl"
+				>
+					<p className="text-2xl">Get Vitalyte for Free</p>
+				</Link>
+			</div>
+		</div>
 	);
 }
+
+const CheckList = () => {
+	return (
+		<div className="flex flex-row space-x-4 w-full">
+			<Check className="h-20 w-20 items-center flex" />
+			<p className="tracking-widest text-2xl flex-grow ">
+				Create an account to access chatbots anywhere. Any time.
+			</p>
+		</div>
+	);
+};

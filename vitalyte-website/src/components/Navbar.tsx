@@ -138,7 +138,7 @@ export default function Navbar() {
 							</a>
 
 							<a
-								href="/"
+								href="/about"
 								className="nav-item hover:text-[#005eb4] hover:rounded-md px-2 mt-1 text-lg"
 							>
 								About
