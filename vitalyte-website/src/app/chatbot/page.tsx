@@ -2,7 +2,7 @@ import Link from "next/link";
 import { MoveRight } from "lucide-react";
 export default function Chatbot() {
 	return (
-		<div className="mt-20">
+		<div className="mt-20 overflow-x-hidden">
 			<div className="object-cover w-[115%] relative lg:right-28 md:right-24 sm:right-12 right-10 bottom-10 z-10">
 				<img src="/imgs/chatbot_background.png" alt="" className="" />
 				<div className="absolute inset-0 flex flex-col items-center justify-center z-40">
