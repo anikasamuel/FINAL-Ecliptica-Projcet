@@ -20,7 +20,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* Research question section with background color */}
+      {/* Research question section */}
       <div className="w-full bg-[#d4ecff] py-16">
         <p id="possible-data-visualizations" className="text-[#005eb4] text-5xl text-center">
           What Do You Want To Research?
@@ -36,7 +36,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* Possible Data Visualizations Section (White Background) */}
+      {/* Possible Data Visualizations Section */}
       <Hover />
 
       {/* Call-to-action section */}
@@ -50,10 +50,10 @@ export default function About() {
           </p>
 
           <Link
-            href="#what-do-you-want-to-research"
-            className="bg-[#007698] py-3 px-5 mt-7 hover:text-[#d4ecff] text-white rounded-2xl"
-          >
-            <p className="text-2xl">Explore More About Ecliptica</p>
+            href="#what-do-you-want-to-research">
+            <button className="text-center items-center justify-center center-20 relative bg-[#007698] text-white py-4 px-10 rounded-full text-lg font-medium mt-4 hover:bg-blue-700 transition">
+								Explore More About Ecliptica &rarr;
+						</button>
           </Link>
         </div>
       </div>

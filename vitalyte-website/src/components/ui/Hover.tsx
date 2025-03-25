@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 export default function DataVisualizations() {
+  // Different-types-of-visualizations
   const visualizations = [
     { src: "/imgs/new-piechart.jpg", alt: "Pie Charts", description: "Pie Chart: Shows a visual of how the inputted topic is distributed by percent throughout related topics.", bgColor: "#007698" },
     { src: "/imgs/new-bargraph.jpg", alt: "Growth Bar Over Time Charts", description: "Bar Chart: Input a topic to see how the growth race in the number of publications over the years", bgColor: "#035db4" },
@@ -12,13 +13,12 @@ export default function DataVisualizations() {
   ];
 
   return (
+    // Possible-data-visualizations section (with descriptions when you hover on one)
     <div className="w-full bg-white py-20">
       <p className="text-[#005eb4] text-5xl text-center">Possible Data Visualizations</p>
       <p className="text-xl text-center mt-4">Hover over each one to explore more!</p>
 
-      {/* Container for visualizations */}
       <div className="flex flex-col items-center mt-16 space-y-32">
-        {/* First row with 3 images */}
         <div className="flex justify-center gap-48">
           {visualizations.slice(0, 3).map((viz, index) => (
             <div
@@ -28,7 +28,6 @@ export default function DataVisualizations() {
             >
               <Image src={viz.src} alt={viz.alt} width={150} height={150} className="rounded-lg" />
               
-              {/* Hover description with less transparency and white text */}
               <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-60 text-white text-sm px-6 py-4 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {viz.description}
               </div>
@@ -36,7 +35,6 @@ export default function DataVisualizations() {
           ))}
         </div>
 
-        {/* Second row with 4 images */}
         <div className="flex justify-center gap-44">
           {visualizations.slice(3).map((viz, index) => (
             <div
@@ -46,7 +44,6 @@ export default function DataVisualizations() {
             >
               <Image src={viz.src} alt={viz.alt} width={150} height={150} className="rounded-lg" />
               
-              {/* Hover description with less transparency and white text */}
               <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-60 text-white text-sm px-6 py-4 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {viz.description}
               </div>

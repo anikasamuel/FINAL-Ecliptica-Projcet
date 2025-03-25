@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"; 
 import { ChevronLeft, ChevronRight } from "lucide-react"; 
 import { Card, CardContent } from "@/components/ui/card"; 
-import Image from "next/image"; // Import the Image component
+import Image from "next/image";
 
 const items = [ 
   { id: 1, title: "Pie Charts", icon: "/imgs/new-piechart.jpg", background: "bg-[#007698]" }, 
@@ -18,39 +18,34 @@ export default function Carousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [autoSlide, setAutoSlide] = useState(true);
 
-  // Move to the previous slide
   const prevSlide = () => {
-    setActiveIndex((prev) => (prev === 0 ? items.length - 3 : prev - 3)); // Show the previous 3 cards
-    setAutoSlide(false); // Stop the auto slide when the user manually interacts
+    setActiveIndex((prev) => (prev === 0 ? items.length - 3 : prev - 3));
+    setAutoSlide(false);
   };
 
-  // Move to the next slide
   const nextSlide = () => {
-    setActiveIndex((prev) => (prev === items.length - 3 ? 0 : prev + 3)); // Show the next 3 cards
-    setAutoSlide(false); // Stop the auto slide when the user manually interacts
+    setActiveIndex((prev) => (prev === items.length - 3 ? 0 : prev + 3));
+    setAutoSlide(false);
   };
 
-  // Get the current 3 items to display in the carousel
   const displayedItems = [
     items[(activeIndex + 0) % items.length],
     items[(activeIndex + 1) % items.length],
     items[(activeIndex + 2) % items.length],
   ];
 
-  // Automatically move the slides
   useEffect(() => {
     if (autoSlide) {
       const interval = setInterval(() => {
-        setActiveIndex((prev) => (prev === items.length - 3 ? 0 : prev + 3)); // Move to the next 3 items
-      }, 4000); // Change slide every 4 seconds
+        setActiveIndex((prev) => (prev === items.length - 3 ? 0 : prev + 3));
+      }, 4000);
 
-      return () => clearInterval(interval); // Clear the interval when the component unmounts
+      return () => clearInterval(interval);
     }
   }, [autoSlide]);
 
   return (
     <div className="relative flex items-center justify-center w-full max-w-6xl p-6 mx-auto">
-      {/* Left arrow button */}
       <button 
         onClick={prevSlide} 
         className="absolute left-0 p-4 bg-gray-100 border-2 border-[#d4ecff] rounded-full shadow-md top-1/2 transform -translate-y-1/2 hover:bg-gray-200 transition"
@@ -58,7 +53,6 @@ export default function Carousel() {
         <ChevronLeft size={32} className="text-[#005eb4]" />
       </button>
 
-      {/* Slider Cards */}
       <div className="flex space-x-6 justify-center w-full overflow-hidden">
         {displayedItems.map((item, index) => (
           <Card
@@ -66,25 +60,23 @@ export default function Carousel() {
             className={`flex flex-col items-center justify-center p-10 w-80 h-80 transition-transform duration-500 ${item.background} text-white rounded-xl`} // Duration for smooth transition
           >
             <CardContent className="flex flex-col items-center">
-              {/* Render the icon or image */}
               {item.icon.endsWith('.jpg') || item.icon.endsWith('.png') || item.icon.endsWith('.svg') ? (
                 <Image
                   src={item.icon}
                   alt={item.title}
-                  width={150} // Set the size of the image
-                  height={150} // Set the size of the image
-                  className="object-contain" // Keep the image centered and contained
+                  width={150}
+                  height={150}
+                  className="object-contain"
                 />
               ) : (
                 <span className="text-6xl">{item.icon}</span>
               )}
-              <p className="mt-3 font-semibold text-center">{item.title}</p> {/* Center the text */}
+              <p className="mt-3 font-semibold text-center">{item.title}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Right arrow button */}
       <button 
         onClick={nextSlide} 
         className="absolute right-0 p-4 bg-gray-100 border-2 border-[#d4ecff] rounded-full shadow-md top-1/2 transform -translate-y-1/2 hover:bg-gray-200 transition"

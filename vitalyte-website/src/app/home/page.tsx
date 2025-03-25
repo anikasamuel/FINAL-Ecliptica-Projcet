@@ -7,6 +7,7 @@ import Slider from "@/components/ui/Slider";
 
 export default function Home() {
 	return (
+		// Title Section
 		<div className="overflow-x-hidden">
 			<Head>
 				<title>Innovative Technology. Empowering Research.</title>
@@ -39,7 +40,6 @@ export default function Home() {
 						</Link>
 					</div>
 
-					{/* Change this later so that on smaller screens the img becomes the background */}
 					<div
 						className="mt-10 left-7 relative w-[100vw] h-[105vh] bg-cover bg-center"
 						style={{ backgroundImage: "url(/imgs/home_logo.svg)" }}
@@ -47,6 +47,7 @@ export default function Home() {
 				</div>
 			</div>
 
+			{/* Information Section */}
 			<div className="bg-[#d4ecff] w-full">
 			<div className="flex flex-col items-center justify-center relative space-y-8 py-20">
 				<p className="text-[#005eb4] text-5xl tracking-wider">
@@ -67,14 +68,15 @@ export default function Home() {
 			</div>
 			</div>
 
-			<div className="bg-white w-full relative bottom-12 mt-20"> {/* Increased margin-top here */}
+			{/* Ready-to-manage-your-research section */}
+			<div className="bg-white w-full relative bottom-12 mt-20">
 			<div className="flex justify-center items-center flex-col space-y-5">
 				<h1 className="text-center text-5xl tracking-wider text-[#005eb4] leading-relaxed">
 				Ready to manage your research <br />
 				<span>with just one word?</span>
 				</h1>
 
-				<p className="mt-5 text-2xl tracking-wide w-1/2 text-center">
+				<p className="mt-5 text-2xl tracking-wide w-full text-center">
 				Use our research model and{" "}
 				<span className="font-black text-[#007698]">
 					eclipse
@@ -83,23 +85,23 @@ export default function Home() {
 				</p>
 
 				<Link
-				href="/about#what-do-you-want-to-research"
-				className="bg-[#007698] py-3 px-5 mt-7 hover:text-[#d4ecff] text-white rounded-2xl"
-				>
-				<p className="text-2xl">Use Ecliptica Now</p>
+				href="/about#what-do-you-want-to-research">
+					<button className="text-center items-center justify-center center-20 relative bg-[#007698] text-white py-4 px-10 rounded-full text-lg font-medium mt-4 hover:bg-blue-700 transition">
+						Use Ecliptica Now &rarr;
+					</button>
 				</Link>
 			</div>
 			</div>
 
-			{/* Slideshow of cards */}
-			<div className="flex justify-center items-center w-full mt-8 mb-12"> {/* Set margin-bottom to 12 */}
+			{/* Slider */}
+			<div className="flex justify-center items-center w-full mt-8 mb-12">
 			<div className="w-4/5 md:w-3/4 lg:w-2/3">
 				<Slider />
 			</div>
 			</div>
 
-			<div className="relative mb-0 mt-0 flex w-full bg-[#d4ecff] py-16"> {/* Adjusted margin and padding */}
-			{/* Left half with image centered */}
+			{/* Checkpoints section */}
+			<div className="relative mb-0 mt-0 flex w-full bg-[#d4ecff] py-16">
 			<div className="flex justify-center items-center w-1/2">
 				<img
 				src="/imgs/data-guy.jpg"
@@ -108,7 +110,7 @@ export default function Home() {
 				/>
 			</div>
 
-			{/* Right half with checklist centered */}
+			{/* Ending-of-home-page section */}
 			<div className="flex flex-col justify-center items-center w-1/2 space-y-8">
 				<CheckList text="Eliminate the stress of researching hours upon hours" />
 				<CheckList text="Get AI recommendations and research analysis" />
@@ -124,25 +126,26 @@ export default function Home() {
 				</div>
 
 				<Link
-					href="/about#possible-data-visualizations"
-					className="bg-[#007698] py-3 px-5 mt-7 hover:text-[#d4ecff] text-white rounded-2xl"
-				>
-					<p className="text-2xl">Explore Ecliptica</p>
+					href="/about#possible-data-visualizations">
+					<button className="text-center items-center justify-center center-20 relative bg-[#007698] text-white py-4 px-10 rounded-full text-lg font-medium mt-4 hover:bg-blue-700 transition">
+								Explore Ecliptica &rarr;
+					</button>
 				</Link>
 			</div>
 		</div>
 	);
 }
 
+// Checklist section
 interface CheckListProps {
 	text: string;
   }
   
   const CheckList = ({ text }: CheckListProps) => {
 	return (
-	  <div className="flex flex-row items-start space-x-12 w-full max-w-2xl"> {/* 1.5 times the space between checks */}
+	  <div className="flex flex-row items-start space-x-12 w-full max-w-2xl">
 		<Check className="h-6 w-6 text-[#007698]" />
-		<p className="tracking-widest text-2xl flex-grow mr-12 break-words"> {/* Text wrapping on smaller screens */}
+		<p className="tracking-widest text-2xl flex-grow mr-12 break-words">
 		  {text}
 		</p>
 	  </div>
