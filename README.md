@@ -1,6 +1,8 @@
-# Vitalyte
+# Ecliptica
 
 To run the application, clone using the "git clone" command with the HTTPS clone URL. Then cd into the folder "vitalyte-website" and run npm i to install dependencies. 
+
+The type npm run dev to run the website.
 
 Getting Started
 Used by some of the world's largest companies, Next.js enables you to create full-stack web applications by extending the latest React features, and integrating powerful Rust-based JavaScript tooling for the fastest builds.
