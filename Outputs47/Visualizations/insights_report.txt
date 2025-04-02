@@ -1,0 +1,24 @@
+🧠 Insights Report
+Generated: 2025-04-01 00:10:36
+==================================================
+
+**Top Identified Topics:**
+  • Crop Yield Optimization (1 mentions)
+  • Crop Diversification (1 mentions)
+  • Crop Pest Surveillance (1 mentions)
+  • Crop Rotation Practices (1 mentions)
+  • Crop Modeling and Forecasting (1 mentions)
+
+**Most Frequent Keywords:**
+  • na (60)
+  • crop (5)
+  • yield (5)
+  • agricultur (5)
+
+**Recent Topic Trends (last 5 years):**
+  • Crop Yield Optimization — 6 publications
+
+**General Observations:**
+- The dataset reveals strong emphasis on the above key topics.
+- Keyword co-occurrence suggests overlap between themes like climate, agriculture, and resilience.
+- Consider exploring underrepresented or emerging topics in future research.

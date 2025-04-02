@@ -1,4 +1,6 @@
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')  # <-- This disables GUI stuff that causes those RuntimeErrors
 import matplotlib.pyplot as plt
 import os
 

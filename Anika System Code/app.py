@@ -19,11 +19,13 @@ from CTM_Code.summarize_keywords import generate_summary_topics
 from assign_topic_to_row.assign_tor import assign_topics_to_metadata
 
 # Visualization imports
-from Visualization_Code.animated_timeline import animated_topic_timeline
+from Visualization_Code.generate_geo_topic_map import generate_geo_topic_map
 from Visualization_Code.bar_graph import bar_chart_overview
 from Visualization_Code.linechart import line_chart_overview
 from Visualization_Code.pie_chart import generate_pie_chart
 from Visualization_Code.sum_sunburst import create_sunburst_chart
+from Visualization_Code.keyword_network import generate_keyword_network
+
 
 print("✅ Flask app is loaded and waiting...")
 
@@ -91,7 +93,9 @@ def run_pipeline():
         generate_pie_chart(ctm_output_csv, output_folder)
         create_sunburst_chart(ctm_output_csv, output_folder)
         line_chart_overview(assigned_output_path, output_folder)
-        animated_topic_timeline(assigned_output_path, output_folder)
+        generate_geo_topic_map(ctm_output_csv, output_folder)
+        generate_keyword_network(ctm_output_csv, output_folder)
+        
 
         print("📊 Visualizations generated")
         steps.update(1)

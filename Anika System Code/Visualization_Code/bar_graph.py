@@ -1,6 +1,9 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 import os
+import matplotlib
+matplotlib.use('Agg')  # <-- This disables GUI stuff that causes those RuntimeErrors
+import matplotlib.pyplot as plt
+
 
 def bar_chart_overview(file_path, output_folder):
     df = pd.read_excel(file_path)
