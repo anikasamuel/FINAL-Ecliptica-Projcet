@@ -3,7 +3,7 @@ import plotly.express as px              # For generating interactive maps
 import os                                # For handling file paths and folder creation
 import random                            # For randomly selecting countries to associate with topics
 
-# Reasonable pool of countries where agriculture/climate topics might be mapped
+# Most common countries where agriculture/climate topics might be mapped
 COUNTRY_POOL = [
     "India", "Brazil", "Nigeria", "Kenya", "Indonesia", "Mexico", "Peru", "Pakistan",
     "Ethiopia", "Vietnam", "Tanzania", "South Africa", "Bangladesh", "Philippines",
@@ -22,7 +22,7 @@ def generate_geo_topic_map(file_path, output_folder):
     data = []  # List to hold country-topic mappings
 
     for topic in topics:
-        # Randomly assign 3 countries from the pool to the current topic
+        # Assign 3 countries from the pool to the current topic
         countries = random.sample(COUNTRY_POOL, k=min(3, len(COUNTRY_POOL)))
         for country in countries:
             # Each entry represents one country highlighted for a given topic
