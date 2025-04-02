@@ -1,11 +1,11 @@
-import pandas as pd                      # For reading and handling CSV data
+import pandas as pd                      # For loading and manipulating CSV data
 import networkx as nx                    # For building and managing graph structures
-import plotly.graph_objects as go        # For creating interactive visualizations
-import os                                # For file path and folder operations
-from sklearn.feature_extraction.text import TfidfVectorizer  # For converting text to numerical vectors
-from sklearn.metrics.pairwise import cosine_similarity       # For calculating similarity between text vectors
+import plotly.graph_objects as go        # For creating interactive network visualizations
+import os                                # For file operations
+from sklearn.feature_extraction.text import TfidfVectorizer  # For converting text to vectors
+from sklearn.metrics.pairwise import cosine_similarity       # For comparing text similarity
 
-# List of 100 agriculture/dev-related keywords to normalize against
+# A curated list of clean agricultural/development keywords for matching
 CLEAN_KEYWORDS = [
     "food security", "crop yield", "soil health", "irrigation", "climate change", "drought resilience",
     "smallholder farming", "women in agriculture", "sustainable farming", "pesticide use", "nutrition access",
@@ -29,14 +29,14 @@ CLEAN_KEYWORDS = [
     "youth migration", "trade agreements", "nutrition programs", "healthcare access", "rural banking"
 ]
 
-# Assign specific colors for different keyword themes
+# Color palette mapped by thematic category
 CATEGORY_COLORS = {
     "climate": "#FDB863", "soil": "#B2ABD2", "tech": "#E66101", "equity": "#5E3C99",
     "water": "#4393C3", "nutrition": "#D6604D", "production": "#4DAC26", "finance": "#762A83",
     "topic": "#FFD700", "default": "#BFBFBF"
 }
 
-# Mapping of keywords to their corresponding theme categories
+# Predefined keyword-to-category mapping for color assignment
 CATEGORY_MAP = {
     "climate": ["climate change", "climate adaptation", "carbon emissions", "carbon sequestration", "greenhouse gases",
                 "rainfall variability", "climate resilience", "climate mitigation", "seasonal forecasting"],
@@ -50,58 +50,55 @@ CATEGORY_MAP = {
     "finance": ["farm financing", "access to credit", "insurance schemes", "subsidy reform", "rural banking"]
 }
 
-# Finds the closest keyword match from the CLEAN_KEYWORDS list using cosine similarity
+# Function to match a raw keyword to the best-fitting clean keyword
 def get_best_match(raw_keyword):
-    vectorizer = TfidfVectorizer().fit(CLEAN_KEYWORDS + [raw_keyword])  # Fit on all known + input keyword
-    vecs = vectorizer.transform([raw_keyword] + CLEAN_KEYWORDS)         # Vectorize input and all clean keywords
-    sims = cosine_similarity(vecs[0:1], vecs[1:]).flatten()             # Compute similarity between input and others
-    best_index = sims.argmax()                                          # Index of best match
+    vectorizer = TfidfVectorizer().fit(CLEAN_KEYWORDS + [raw_keyword])  # Fit vectorizer to all known keywords plus input
+    vecs = vectorizer.transform([raw_keyword] + CLEAN_KEYWORDS)         # Vectorize the input + all keywords
+    sims = cosine_similarity(vecs[0:1], vecs[1:]).flatten()             # Compare input to all others
+    best_index = sims.argmax()                                          # Choose the most similar keyword
     return CLEAN_KEYWORDS[best_index]
 
-# Returns the color category for a given keyword
+# Function to return the color category of a given keyword
 def get_category(keyword):
     for cat, kws in CATEGORY_MAP.items():
         if keyword in kws:
             return cat
-    return "default"  # If no match, use default color
+    return "default"  # Return default if keyword not categorized
 
-# Main function to generate and save the keyword network graph
+# Main function to create a network graph and save it as an interactive HTML
 def generate_keyword_network(file_path, output_folder):
-    df = pd.read_csv(file_path)  # Read CSV file
-    df = df.dropna(subset=['Summary topic', 'Keywords'])  # Drop rows missing required columns
-    df['Keywords'] = df['Keywords'].astype(str).str.split(';')  # Split keywords by semicolon
-    df_exploded = df.explode('Keywords')  # One keyword per row
-    df_exploded['Keywords'] = df_exploded['Keywords'].str.strip().str.lower()  # Clean formatting
+    df = pd.read_csv(file_path)  # Load CSV file
+    df = df.dropna(subset=['Summary topic', 'Keywords'])  # Remove rows missing required fields
+    df['Keywords'] = df['Keywords'].astype(str).str.split(';')  # Convert keyword string to list
+    df_exploded = df.explode('Keywords')  # Flatten keyword lists so each keyword is a separate row
+    df_exploded['Keywords'] = df_exploded['Keywords'].str.strip().str.lower()  # Clean keywords
 
-    # Get the top 5 most common summary topics
+    # Get the top 5 topics by frequency
     top_topics = df_exploded['Summary topic'].value_counts().head(5).index.tolist()
-    df_filtered = df_exploded[df_exploded['Summary topic'].isin(top_topics)]  # Filter for top topics
+    df_filtered = df_exploded[df_exploded['Summary topic'].isin(top_topics)]  # Keep only top 5 topics
 
-    # Match keywords to CLEAN_KEYWORDS
+    # Clean and match each keyword
     df_filtered['Cleaned Keyword'] = df_filtered['Keywords'].apply(get_best_match)
 
-    G = nx.Graph()  # Initialize an empty graph
+    G = nx.Graph()  # Create a new empty graph
     for _, row in df_filtered.iterrows():
         topic = row['Summary topic']
         keyword = row['Cleaned Keyword']
-
         G.add_node(topic, type='topic', color=CATEGORY_COLORS['topic'])  # Add topic node
-        cat = get_category(keyword)  # Get category for keyword
+        cat = get_category(keyword)
         G.add_node(keyword, type='keyword', color=CATEGORY_COLORS.get(cat, CATEGORY_COLORS['default']))  # Add keyword node
-        G.add_edge(topic, keyword)  # Create edge between topic and keyword
+        G.add_edge(topic, keyword)  # Connect topic and keyword
 
-    # Compute node positions using force-directed layout
+    # Generate node positions
     pos = nx.spring_layout(G, seed=42)
-
-    # Create edge traces for plotly
     edge_x, edge_y = [], []
     for edge in G.edges():
         x0, y0 = pos[edge[0]]
         x1, y1 = pos[edge[1]]
-        edge_x.extend([x0, x1, None])
-        edge_y.extend([y0, y1, None])
+        edge_x.extend([x0, x1, None])  # X coords of each edge
+        edge_y.extend([y0, y1, None])  # Y coords of each edge
 
-    # Define how edges will appear
+    # Define how edges look on the graph
     edge_trace = go.Scatter(
         x=edge_x, y=edge_y,
         line=dict(width=1, color='gray'),
@@ -109,17 +106,16 @@ def generate_keyword_network(file_path, output_folder):
         mode='lines'
     )
 
-    # Define node positions, labels, colors, and sizes
     node_x, node_y, labels, colors, sizes = [], [], [], [], []
     for node, data in G.nodes(data=True):
         x, y = pos[node]
         node_x.append(x)
         node_y.append(y)
         labels.append(node)
-        colors.append(data['color'])                          # Color based on type/category
-        sizes.append(28 if data['type'] == 'topic' else 16)   # Bigger size for topic nodes
+        colors.append(data['color'])                      # Use color based on category
+        sizes.append(28 if data['type'] == 'topic' else 16)  # Bigger size for topic nodes
 
-    # Create node traces for plotly
+    # Define how nodes appear
     node_trace = go.Scatter(
         x=node_x, y=node_y,
         mode='markers+text',
@@ -134,26 +130,26 @@ def generate_keyword_network(file_path, output_folder):
         )
     )
 
-    # Combine edge and node traces into a figure
+    # Create the full figure with layout and data
     fig = go.Figure(
         data=[edge_trace, node_trace],
         layout=go.Layout(
             title=dict(
-                text='🌐 Keyword Network by Topic (Categorized)',  # Chart title
+                text='🌐 Keyword Network by Topic (Categorized)',
                 font=dict(size=22)
             ),
             showlegend=False,
             hovermode='closest',
             margin=dict(b=20, l=5, r=5, t=40),
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),  # Hide x-axis
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)   # Hide y-axis
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)
         )
     )
 
-    # Save figure to Visualizations folder
+    # Save figure to file
     vis_folder = os.path.join(output_folder, 'Visualizations')
-    os.makedirs(vis_folder, exist_ok=True)  # Create folder if it doesn’t exist
+    os.makedirs(vis_folder, exist_ok=True)
     output_file = os.path.join(vis_folder, f"keyword_network_{os.path.basename(file_path).replace('.csv', '')}.html")
-    fig.write_html(output_file)  # Save interactive chart as HTML
+    fig.write_html(output_file)
     print(f"🔗 Keyword network saved to '{output_file}'")
-    return output_file  # Return path to saved file
+    return output_file  # Return the path to the saved HTML file
